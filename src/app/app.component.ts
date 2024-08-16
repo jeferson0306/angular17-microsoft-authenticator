@@ -1,13 +1,125 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatButtonModule} from '@angular/material/button';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {RouterLink, RouterOutlet} from '@angular/router';
+import {
+  MSAL_GUARD_CONFIG,
+  MsalBroadcastService,
+  MsalGuardConfiguration,
+  MsalModule,
+  MsalService
+} from '@azure/msal-angular';
+import {
+  AuthenticationResult,
+  EventMessage,
+  EventType,
+  InteractionStatus,
+  PopupRequest,
+  RedirectRequest
+} from '@azure/msal-browser';
+import {Subject} from 'rxjs';
+import {filter, takeUntil} from 'rxjs/operators';
+import {CommonModule} from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css'],
+  standalone: true,
+  imports: [CommonModule, MsalModule, RouterOutlet, RouterLink, MatToolbarModule, MatButtonModule, MatMenuModule]
 })
-export class AppComponent {
-  title = 'angular17-microsoft-authenticator';
+export class AppComponent implements OnInit, OnDestroy {
+  title = 'Angular 17 Sample - MSAL Angular v3';
+  isIframe = false;
+  loginDisplay = false;
+  private readonly _destroying$ = new Subject<void>();
+
+  constructor(
+    @Inject(MSAL_GUARD_CONFIG) private msalGuardConfig: MsalGuardConfiguration,
+    private authService: MsalService,
+    private msalBroadcastService: MsalBroadcastService
+  ) {
+  }
+
+  ngOnInit(): void {
+    this.authService.handleRedirectObservable().subscribe();
+    this.isIframe = window !== window.parent && !window.opener;
+
+    this.setLoginDisplay();
+
+    this.authService.instance.enableAccountStorageEvents();
+    this.msalBroadcastService.msalSubject$
+      .pipe(
+        filter((msg: EventMessage) => msg.eventType === EventType.ACCOUNT_ADDED || msg.eventType === EventType.ACCOUNT_REMOVED),
+      )
+      .subscribe((result: EventMessage) => {
+        if (this.authService.instance.getAllAccounts().length === 0) {
+          window.location.pathname = "/";
+        } else {
+          this.setLoginDisplay();
+        }
+      });
+
+    this.msalBroadcastService.inProgress$
+      .pipe(
+        filter((status: InteractionStatus) => status === InteractionStatus.None),
+        takeUntil(this._destroying$)
+      )
+      .subscribe(() => {
+        this.setLoginDisplay();
+        this.checkAndSetActiveAccount();
+      })
+  }
+
+  setLoginDisplay() {
+    this.loginDisplay = this.authService.instance.getAllAccounts().length > 0;
+  }
+
+  checkAndSetActiveAccount() {
+
+    let activeAccount = this.authService.instance.getActiveAccount();
+
+    if (!activeAccount && this.authService.instance.getAllAccounts().length > 0) {
+      let accounts = this.authService.instance.getAllAccounts();
+      this.authService.instance.setActiveAccount(accounts[0]);
+    }
+  }
+
+  loginRedirect() {
+    if (this.msalGuardConfig.authRequest) {
+      this.authService.loginRedirect({...this.msalGuardConfig.authRequest} as RedirectRequest);
+    } else {
+      this.authService.loginRedirect();
+    }
+  }
+
+  loginPopup() {
+    if (this.msalGuardConfig.authRequest) {
+      this.authService.loginPopup({...this.msalGuardConfig.authRequest} as PopupRequest)
+        .subscribe((response: AuthenticationResult) => {
+          this.authService.instance.setActiveAccount(response.account);
+        });
+    } else {
+      this.authService.loginPopup()
+        .subscribe((response: AuthenticationResult) => {
+          this.authService.instance.setActiveAccount(response.account);
+        });
+    }
+  }
+
+  logout(popup?: boolean) {
+    if (popup) {
+      this.authService.logoutPopup({
+        mainWindowRedirectUri: "/"
+      });
+    } else {
+      this.authService.logoutRedirect();
+    }
+  }
+
+  ngOnDestroy(): void {
+    this._destroying$.next(undefined);
+    this._destroying$.complete();
+  }
 }

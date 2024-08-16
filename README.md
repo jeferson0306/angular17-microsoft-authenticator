@@ -14,14 +14,21 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-## Running unit tests
+## Login Test
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Home - Before Login
+![img_3.png](img_3.png)
 
-## Running end-to-end tests
+Login - Failed (wrong user)
+![img.png](img.png)
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Login - Success (correct user)
+![img_1.png](img_1.png)
+
+Logout - Success (correct user)
+![img_2.png](img_2.png)
 
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
