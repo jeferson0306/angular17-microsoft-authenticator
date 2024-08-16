@@ -3,11 +3,17 @@ import {FailedComponent} from './failed/failed.component';
 import {HomeComponent} from './home/home.component';
 import {ProfileComponent} from './profile/profile.component';
 import {MsalGuard} from '@azure/msal-angular';
+import {NewprofileComponent} from "./newprofile/newprofile.component";
 
 export const routes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent,
+    canActivate: [MsalGuard]
+  },
+  {
+    path: 'newprofile',
+    component: NewprofileComponent,
     canActivate: [MsalGuard]
   },
   {
