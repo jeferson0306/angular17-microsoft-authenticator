@@ -3,7 +3,7 @@ export const environment = {
   msalConfig: {
     auth: {
       clientId: 'clientId from portal.azure.com',
-      authority: 'https://login.microsoftonline.com/3b90567f-f3c2-4b0c-ba72-78ae0ed3cc2e',
+      authority: 'https://login.microsoftonline.com/common',
     }
   },
   apiConfig: {
