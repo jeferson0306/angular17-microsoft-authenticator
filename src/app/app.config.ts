@@ -4,6 +4,7 @@ import {routes} from './app.routes';
 import {BrowserModule} from '@angular/platform-browser';
 import {HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptorsFromDi} from '@angular/common/http';
 import {provideNoopAnimations} from '@angular/platform-browser/animations';
+import {ToastrModule} from 'ngx-toastr';
 import {
   BrowserCacheLocation,
   InteractionType,
@@ -44,7 +45,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
       cacheLocation: BrowserCacheLocation.LocalStorage
     },
     system: {
-      allowNativeBroker: false, // Disables WAM Broker
+      allowNativeBroker: false,
       loggerOptions: {
         loggerCallback,
         logLevel: LogLevel.Info,
@@ -77,7 +78,18 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
-    importProvidersFrom(BrowserModule, MatButtonModule, MatToolbarModule, MatListModule, MatMenuModule),
+    importProvidersFrom(
+      BrowserModule,
+      MatButtonModule,
+      MatToolbarModule,
+      MatListModule,
+      MatMenuModule,
+      ToastrModule.forRoot({
+        timeOut: 3000,
+        positionClass: 'toast-top-right',
+        preventDuplicates: true,
+      })
+    ),
     provideNoopAnimations(),
     provideHttpClient(withInterceptorsFromDi(), withFetch()),
     {

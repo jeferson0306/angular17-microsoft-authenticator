@@ -1,0 +1,100 @@
+<nav class="navbar">
+  <div class="navbar-content">
+    <img [src]="'assets/img/logo.png'" alt="Logo" class="navbar-logo mr-auto">
+    <span class="navbar-title">MDM WEB</span>
+    <div class="navbar-user">
+      <span>{{ profile?.givenName }} {{ profile?.surname }}</span>
+      <span>|</span>
+    </div>
+  </div>
+</nav>
+
+<h1 class="mt-5">Alteração de Cadastro</h1>
+<h2 class="mt-3">Associado, consulte por um cliente para realizar a alteração de seus dados cadastrais.</h2>
+
+<div class="container">
+
+  <div class="form-row">
+    <div class="form-cell">
+      <label for="cpf" class="mb-2 mt-2">CPF:</label>
+      <input id="cpf" type="text" class="input-sozinho" [value]="formatarCPF(cliente.cdDocPes)" readonly/>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-cell flex-row">
+      <div class="buttons-container mb-4 mt-2">
+        <button type="button" class="btn  mt-2 mb-2 m-lg-2"
+                [ngClass]="{'btn-primary': !editMode, 'btn-light': editMode}"
+                (click)="alterarCadastro()">
+          {{ editMode ? 'Cancelar Alterações' : 'Alterar Cadastro' }}
+        </button>
+        <button type="button" class="btn btn-primary mt-2 mb-2 m-lg-2" (click)="novaConsulta()">Nova Consulta
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-cell">
+      <label for="nome" class="mb-2 mt-2">Nome:</label>
+      <input id="nome" type="text" [(ngModel)]="cliente.noPes" [readonly]="!isEditable"
+             (ngModelChange)="verificaAlteracoes()" (input)="transformToUpperCase($event)"/>
+    </div>
+    <div class="form-cell">
+      <label for="sobrenome" class="mb-2 mt-2">Sobrenome:</label>
+      <input id="sobrenome" type="text" [(ngModel)]="cliente.dsSbrPes" [readonly]="!isEditable"
+             (ngModelChange)="verificaAlteracoes()" (input)="transformToUpperCase($event)"/>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-cell">
+      <label for="dtNsc" class="mb-2 mt-2">Data de nascimento:</label>
+      <input id="dtNsc" type="date" [(ngModel)]="cliente.dtNsc" [readonly]="!isEditable"
+             (ngModelChange)="verificaAlteracoes()"/>
+    </div>
+    <div class="form-cell">
+      <label for="dsGeneroPessoa" class="mb-2 mt-2">Gênero:</label>
+      <select id="dsGeneroPessoa" [(ngModel)]="cliente.dsGeneroPessoa" [disabled]="!isEditable"
+              (ngModelChange)="verificaAlteracoes()"
+              class="form-control">
+        <option value="">Selecione uma opção...</option>
+        <option value=""></option>
+        <option value="FEMININO">Feminino</option>
+        <option value="MASCULINO">Masculino</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-cell">
+      <label for="telefoneCompleto" class="mb-2 mt-2">Telefone celular:</label>
+      <input id="telefoneCompleto" type="text" maxlength="16"
+             [(ngModel)]="cliente.telefoneCompleto"
+             [readonly]="!isEditable" (ngModelChange)="verificaAlteracoes()"
+             mask="(00) 0 0000-0000" required/>
+
+      <button type="button" class="btn btn-primary mt-2 mb-2" [disabled]="!isChanged"
+              (click)="salvarAlteracoes()">Salvar Alterações
+      </button>
+    </div>
+
+    <div class="form-cell">
+      <label for="email" class="mb-2 mt-2">Email:</label>
+      <input id="email" type="email" class="input-sozinho" [(ngModel)]="cliente.email.dsEmailCttPes"
+             [readonly]="!isEditable" (ngModelChange)="verificaAlteracoes()" required/>
+
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="notifications"
+               [checked]="cliente.email?.inNotEmail === 'S'"
+               [disabled]="!isEditable">
+
+        <label class="form-check-label" for="notifications">
+          Receber notificações
+        </label>
+      </div>
+    </div>
+  </div>
+
+</div>

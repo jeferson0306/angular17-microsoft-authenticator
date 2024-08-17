@@ -30,7 +30,7 @@ import {CommonModule} from '@angular/common';
   imports: [CommonModule, MsalModule, RouterOutlet, RouterLink, MatToolbarModule, MatButtonModule, MatMenuModule]
 })
 export class AppComponent implements OnInit, OnDestroy {
-  title = 'Angular 17 Sample - MSAL Angular v3';
+  title = 'Portal MDM';
   isIframe = false;
   loginDisplay = false;
   private readonly _destroying$ = new Subject<void>();

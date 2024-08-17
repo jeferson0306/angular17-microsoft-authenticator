@@ -10,6 +10,168 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #F9F9F9;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  font-weight: bold;
+  text-align: center;
+  margin-top: 20px;
+}
+
+h2 {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: normal;
+  text-align: center;
+  color: #555;
+}
+
+.navbar {
+  background-color: #fff;
+  color: #555;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  padding: 10px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid #ddd;
+}
+
+.navbar-content {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+}
+
+.navbar-logo {
+  height: 50px;
+}
+
+.navbar-title {
+  font-weight: normal;
+  font-size: 20px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.navbar-user {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-left: auto;
+}
+
 .container {
-  margin: 1%;
+  width: 100%;
+  max-width: 1000px;
+  margin: 50px auto;
+  padding: 20px;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+label {
+  display: block;
+  margin: auto;
+  font-weight: normal;
+  color: #333;
+  border: none;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+}
+
+input.ng-invalid.ng-touched {
+  border: 1px solid #dc3545;
+}
+
+input:focus, select:focus, .form-control:focus, select.option:focus, option:focus {
+  outline: none;
+  border: 1px solid #E0E0E0;
+  box-shadow: none;
+}
+
+input[type="text"], input[type="date"], input[type="email"], select, .form-control, select.option, option {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[readonly], .form-control[disabled], select[disabled], select.option[disabled] {
+  background-color: #eeeeee;
+  color: #333;
+  border: 1px solid #ccc;
+}
+
+input, select, .form-control, select.form-control.option, option, select.option {
+  width: 100%;
+  padding: 10px;
+  margin: 0 3px 0 0;
+  box-sizing: border-box;
+  flex: 1;
+  outline: none;
+  border: 1px solid #F9F9F9;
+  background-color: #F9F9F9;
+  box-shadow: none;
+  font-size: 16px;
+  height: 40px;
+  border-radius: 5px;
+}
+
+.error-message {
+  color: #dc3545;
+  font-size: 0.875em;
+  padding-top: 10px;
+}
+
+html, body {
+  height: 100%;
+}
+
+.btn-theme-toggle {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.btn-theme-toggle:hover {
+  color: #007bff;
+}
+
+.input-group, .button-group {
+  display: flex;
+  justify-content: space-between;
+}
+
+.button-margin {
+  margin: 0 5px;
+}
+
+.btn-light:hover {
+  background-color: #dc3545;
+  color: white;
+}
+
+.input-sozinho {
+  width: 50%;
 }

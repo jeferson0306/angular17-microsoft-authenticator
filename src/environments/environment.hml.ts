@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  msalConfig: {
+  baseUrl: 'https://alv-crm-api-mdm-web.hml.ceabr.io',  msalConfig: {
     auth: {
       clientId: 'clientId from portal.azure.com',
       authority: 'https://login.microsoftonline.com/common'

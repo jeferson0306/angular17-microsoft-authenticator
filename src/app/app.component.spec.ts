@@ -34,7 +34,7 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'Angular 17 Sample - MSAL Angular v3' title`, () => {
+  it(`should have the 'Portal MDM' title`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
     expect(app.title).toEqual('Angular 17 Sample - MSAL Angular v3');
